@@ -1,0 +1,9 @@
+﻿Name,Mean Radius (km),Mass (kg),Orbital Period (days),Distance from Sun (AU),Atmospheric Composition,Surface Temperature (°C),Density (kg/m³),Unique Characteristics
+Mercury,2439.7,3.30E+23,88,0.39,"N2, O2, Na, He, K",167,5427,"Closest planet to the Sun, no atmosphere"
+Venus,6051.8,4.87E+24,225,0.72,"CO2, N2",464,524,"Hottest planet, thick atmosphere"
+Earth,6371,5.97E+24,365.25,1,"N2, O2, CO2, Ar",15,5514,Only planet known to support life
+Mars,3389.5,6.42E+23,687,1.52,"CO2, N2, Ar, O2",-63,3933,Has the largest volcano and canyon in the solar system
+Jupiter,69911,1.90E+27,4333,5.2,"H2, He, CH4, NH3",-108,1326,"Largest planet, famous for the Great Red Spot"
+Saturn,58232,5.68E+26,10759,9.58,"H2, He, CH4, NH3",-139,687,Known for its extensive ring system
+Uranus,25362,8.68E+25,30687,19.22,"H2, He, CH4",-197,1270,"Rotates on its side, extreme axial tilt"
+Neptune,24622,1.02E+26,60190,30.07,"H2, He, CH4",-201,1638,"Farthest planet, has strong winds"

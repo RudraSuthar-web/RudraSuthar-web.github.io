@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orrery Web App</title>
+    <link rel="stylesheet" href="/pages/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: black;
+        }
+        th, td {
+            color: black;
+            border: 1px solid black;
+            /* padding: 8px; */
+            text-align: center;
+        }
+        h1{
+            color: black;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <!-- <h1>Planet Data</h1>
+    <table id="planetTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Mean Radius (km)</th>
+                <th>Mass (kg)</th>
+                <th>Orbital Period (days)</th>
+                <th>Distance from Sun (AU)</th>
+                <th>Atmospheric Composition</th>
+                <th>Surface Temperature (°C)</th>
+                <th>Density (kg/m³)</th>
+                <th>Unique Characteristics</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table> -->
+    
+    <div class="content">
+        <div class="circles">
+            <div class="mercury_circle"></div>
+            <div class="venus_circle"></div>
+            <div class="earth_circle"></div>
+            <div class="mars_circle"></div>
+            <div class="saturn_circle"></div>
+            <div class="jupiter_circle"></div>
+            <div class="uranus_circle"></div>
+            <div class="neptune_circle"></div>
+        </div>
+
+        <div id="planets">
+            <div class="planet sun" data-name="Sun"></div>
+            <div id="sun_container"></div>
+
+            
+            <div class="mercury_container planet" data- ="Mercury">
+
+                <div class="gif_mercury"></div>
+                <div class="shadow_mercury">
+                    <div class="light"></div>
+                    <div class="shadow"></div>
+                </div>
+            </div>
+            <div class="venus_container planet" data-name="Venus">
+                <div class="gif_venus"></div>
+                <div class="shadow_venus">
+                    <div class="light"></div>
+                    <div class="shadow"></div>
+                </div>
+            </div>
+            <div class="earth_moon_container planet" data-name="Earth">
+                <div class="earth_container">
+                    <div class="gif_earth">
+                        <a href="/planetsdata/output.html"></a><img src="https://res.cloudinary.com/yerevan/image/upload/v1484080036/earth_saibbo.gif"></a>
+                    </div>
+                    <div class="shadow_earth">
+                        <div class="light"></div>
+                        <div class="shadow"></div>
+                    </div>
+                </div>
+                <div class="moon_container">
+                    <div class="moon">
+                        <img src="https://res.cloudinary.com/yerevan/image/upload/v1484080036/moon_nqqsgu.gif">
+                    </div>
+                </div>
+            </div>
+            <div class="mars_container planet" data-name="Mars">
+                <div class="gif_mars"></div>
+                <div class="shadow_mars">
+                    <div class="light"></div>
+                    <div class="shadow"></div>
+                </div>
+            </div>
+            <div class="star_belt"></div>
+
+            <div class="jupiter_container planet" data-name="Jupiter">
+                <div class="gif_jupiter">
+                        <img src="https://res.cloudinary.com/yerevan/image/upload/v1484080036/jupiter_cxhuh5.gif">
+                </div>
+                <div class="shadow_jupiter">
+                    <div class="light"></div>
+                    <div class="shadow"></div>
+                </div>
+            </div>
+            <div class="saturn_ring_container planet" data-name="Saturn">
+                <div class="saturn_container">
+                    <div class="gif_saturn">
+                        <img src="https://res.cloudinary.com/yerevan/image/upload/v1484080036/jupiter_cxhuh5.gif">
+                    </div>
+                    <div class="shadow_saturn">
+                        <div class="light"></div>
+                        <div class="shadow"></div>
+                    </div>
+                </div>
+                <div class="ring_container">
+                    <div class="gif_ring">
+                        <div>
+                            <img src="https://res.cloudinary.com/yerevan/image/upload/v1484080037/ring_zofwhd.png">
+                        </div>
+                        <div>
+                            <img src="https://res.cloudinary.com/yerevan/image/upload/v1484080037/ring_zofwhd.png">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="uranus_container planet" data-name="Uranus">
+                <div class="gif_uranus"></div>
+                <div class="shadow_uranus">
+                    <div class="light"></div>
+                    <div class="shadow"></div>
+                </div>
+            </div>
+            <div class="neptune_container planet" data-name="Neptune">
+                <div class="gif_neptune"></div>
+                <div class="shadow_neptune">
+                    <div class="light"></div>
+                    <div class="shadow"></div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="controls">
+            <button id="stop">Stop</button>
+            <button id="start">Start</button>
+            <p>Grab and move mouse vertically to change perspective</p>
+            <!-- <label for="speedControl">Speed Control:</label>
+             <input type="range" id="speedControl" min="1" max="100" value="50">
+             <span id="speed-value"></span>
+        </div> -->
+    </div>
+
+    <div id="slide-panel">
+        <div id="panel-content">
+            <span id="close-panel">&times;</span>
+            <h2 id="planet-name"></h2>
+            <p id="planet-info"></p>
+        </div>
+    </div>
+
+    <!-- <script>
+        
+    async function loadPlanetData() {
+        try {
+            const response = await fetch('Planets_DATA.csv'); // Ensure the correct path
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                const data = await response.text();
+                const parsedData = Papa.parse(data, { header: true });
+                
+                const tbody = document.querySelector('#planetTable tbody');
+                parsedData.data.forEach(planet => {
+                    if (Object.keys(planet).length > 0) { // Check if the planet object is not empty
+                        const row = document.createElement('tr');
+                        Object.values(planet).forEach(value => {
+                            const cell = document.createElement('td');
+                            cell.textContent = value;
+                            row.appendChild(cell);
+                        });
+                        tbody.appendChild(row);
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading the CSV data:', error);
+            }
+        }
+
+        loadPlanetData();
+    </script> -->
+
+    
+    <div class="planet data">
+        <h3><a href="/planetsdata/output.html" style="color:white; text-decoration: none;">Planet Data</a></h3>
+      </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/pages/script.js"></script>
+    <!-- <script src="/app1.js"></script> -->
+    <script src="/pages/panel.js"></script>
+    <!-- <script src="api.js"></script>
+    <script src="movement.js"></script>
+    <script src="sidebar.js"></script> -->
+</body>
+
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Planet and Asteroid Orbits</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Orbitron', sans-serif;
+      color: white;
+      background-color: black;
+    }
+    canvas {
+      display: block;
+    }
+    #name {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+    }
+     #info {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      color: white;
+    }
+    #controls {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: white;
+    }
+    #speed-value {
+      margin-left: 5px;
+      font-weight: bold;
+    }
+    #asteroid-info {
+      position: absolute;
+      top: 50px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px;
+      border-radius: 5px;
+      display: none; /* Hidden by default */
+      color: white;
+    }
+    #asteroid-info h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 1.5em;
+    }
+    #asteroid-info p {
+      margin: 5px 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="name">
+    <h1></h1>
+  </div>
+  <div id="info">
+    <h2>Orrery Web App</h2>
+  </div>
+
+  <!-- Speed Control Slider -->
+  <div id="controls">
+    <label for="speed">Orbital Speed:</label>
+    <input type="range" id="speed" min="0" max="10" step="0.1" value="1">
+    <span id="speed-value">1x</span>
+  </div>
+
+  <div id="asteroid-info">
+    <h2 id="asteroid-name">Object Name</h2>
+    <p><strong>Semimajor Axis (a):</strong> <span id="asteroid-a"></span></p>
+    <p><strong>Eccentricity (e):</strong> <span id="asteroid-e"></span></p>
+    <p><strong>Inclination (i):</strong> <span id="asteroid-i"></span></p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <script>
+    // Basic setup for Three.js
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    let renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Orbit controls for easy navigation
+    let controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.screenSpacePanning = false;
+    controls.maxDistance = 50;
+    controls.minDistance = 2;
+
+// Function to create a star field
+// Function to create a star field with spherical stars
+function createStarField(numStars) {
+    const starGroup = new THREE.Group(); // Create a group to hold the stars
+
+    for (let i = 0; i < numStars; i++) {
+        const starGeometry = new THREE.SphereGeometry(0.1, 8, 8); // Small sphere for stars
+        const starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff }); // Random color
+        const star = new THREE.Mesh(starGeometry, starMaterial);
+
+        // Generate random positions for the stars
+        star.position.x = (Math.random() - 0.5) * 200; // x
+        star.position.y = (Math.random() - 0.5) * 200; // y
+        star.position.z = (Math.random() - 0.5) * 200; // z
+
+        starGroup.add(star); // Add the star to the group
+    }
+
+    return starGroup; // Return the group of stars
+}
+
+// Create stars and add them to the scene
+const starField = createStarField(1500); // Adjust the number of stars as needed
+scene.add(starField);
+
+
+    // Add the Sun
+    let sunGeometry = new THREE.SphereGeometry(0.25, 32, 32);
+    let sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    let sun = new THREE.Mesh(sunGeometry, sunMaterial);
+    scene.add(sun);
+
+    // Function to create orbits based on semi-major axis, eccentricity, and inclination
+    function createOrbit(a, e, i, color) {
+      let points = [];
+      for (let angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
+        let r = a * (1 - e * e) / (1 + e * Math.cos(angle));
+        let x = r * Math.cos(angle);
+        let y = r * Math.sin(angle);
+        points.push(new THREE.Vector3(x, y, 0));
+      }
+
+      let orbitGeometry = new THREE.BufferGeometry().setFromPoints(points);
+      let orbitMaterial = new THREE.LineBasicMaterial({ color: color });
+      let orbit = new THREE.Line(orbitGeometry, orbitMaterial);
+
+      // Rotate for inclination
+      orbit.rotation.x = THREE.MathUtils.degToRad(i);
+
+      return orbit;
+    }
+
+    // Function to create planets or asteroids
+    function createObject(radius, color) {
+      let geometry = new THREE.SphereGeometry(radius, 16, 16);
+      let material = new THREE.MeshBasicMaterial({ color: color });
+      return new THREE.Mesh(geometry, material);
+    }
+
+    // Function to create labels for objects
+    function createLabel(text) {
+      let canvas = document.createElement('canvas');
+      let context = canvas.getContext('2d');
+      context.font = 'Bold 40px Orbitron';
+      context.fillStyle = 'white';
+      context.fillText(text, 0, 40);
+
+      let texture = new THREE.CanvasTexture(canvas);
+      let material = new THREE.SpriteMaterial({ map: texture });
+      let sprite = new THREE.Sprite(material);
+      sprite.scale.set(1.5, 0.75, 1); // Adjust scale of the label
+
+      return sprite;
+    }
+
+    // Data for planets
+    // Data for planets with increased orbital sizes for inner planets
+// Data for planets with further increased orbital sizes for inner planets
+// Data for planets with adjusted orbital sizes for outer planets
+let planets = [
+  { name: "Mercury", a: 0.55, e: 0.205, i: 7.0, color: 0xa9a9a9 },
+  { name: "Venus", a: 0.90, e: 0.007, i: 3.4, color: 0xffcc66 },
+  { name: "Earth", a: 1.4, e: 0.017, i: 0.0, color: 0x3399ff },
+  { name: "Mars", a: 2.0, e: 0.093, i: 1.85, color: 0xff6600 },
+  { name: "Jupiter", a: 4.5, e: 0.049, i: 1.3, color: 0xffcc99 },  // Reduced from 5.20 to 4.5
+  { name: "Saturn", a: 8.0, e: 0.056, i: 2.5, color: 0xffcc33 },   // Reduced from 9.58 to 8.0
+  { name: "Uranus", a: 17.0, e: 0.047, i: 0.77, color: 0x99ffff }, // Reduced from 19.18 to 17.0
+  { name: "Neptune", a: 28.0, e: 0.009, i: 1.77, color: 0x3333ff } // Reduced from 30.07 to 28.0
+];
+
+
+
+
+    // Data for asteroids/comets
+    let comets = [
+      { name: "Ceres", a: 2.7666197, e: 0.07918392, i: 10.58790, color: 0x808080 },
+      { name: "Pallas", a: 2.7703442, e: 0.23043838, i: 34.92186, color: 0x808080 },
+      { name: "Juno", a: 2.6701869, e: 0.25610925, i: 12.98815, color: 0x808080 },
+      { name: "Vesta", a: 2.3609252, e: 0.09000112, i: 7.14398, color: 0x808080 },
+      // Additional Asteroids
+      { name: "Eros", a: 1.458, e: 0.223, i: 10.829, color: 0x808080 },
+      { name: "Ganymed", a: 2.663, e: 0.231, i: 26.69, color: 0x808080 },
+      { name: "Hygiea", a: 3.139, e: 0.115, i: 3.84, color: 0x808080 },
+      { name: "Davida", a: 3.164, e: 0.188, i: 15.94, color: 0x808080 },
+      { name: "Interamnia", a: 3.067, e: 0.150, i: 17.30, color: 0x808080 }
+    ];
+
+    let objects = []; // Array to store both planets and asteroids
+    let orbits = [];  // Store their orbits
+    let labels = [];  // Store their labels
+
+    // Create planets and asteroids
+   // Create planets and asteroids
+function createObjects(dataArray, sizeFactor) {
+  dataArray.forEach(data => {
+    let object = createObject(sizeFactor * 0.05, data.color);
+    // Use the object's color for the orbit color
+    let orbit = createOrbit(data.a, data.e, data.i, data.color); 
+    let label = createLabel(data.name);
+
+    objects.push({ data: data, object: object });
+    orbits.push(orbit);
+    labels.push(label);
+
+    scene.add(object);
+    scene.add(orbit);
+    scene.add(label);
+  });
+}
+
+
+    // Create planets (larger size factor)
+    createObjects(planets, 1.5);
+
+    // Create asteroids/comets (smaller size factor)
+    createObjects(comets, 1);
+
+    // Camera position
+    camera.position.set(0, 0, 10);
+
+    // Variables for animation
+    let speed = 1;
+    let time = 0;
+
+    // Event listener for speed control
+    document.getElementById('speed').addEventListener('input', function(event) {
+      speed = parseFloat(event.target.value);
+      document.getElementById('speed-value').innerText = speed + 'x';
+    });
+
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+
+      // Update the position of each planet/asteroid
+      time += 0.01 * speed;
+      objects.forEach((entry, index) => {
+        let data = entry.data;
+        let angle = time * Math.sqrt(1 / Math.pow(data.a, 3));
+
+        // Calculate orbital position
+        let r = data.a * (1 - data.e * data.e) / (1 + data.e * Math.cos(angle));
+        let x = r * Math.cos(angle);
+        let y = r * Math.sin(angle);
+
+        // Apply inclination
+        let z = y * Math.sin(THREE.MathUtils.degToRad(data.i));
+        y = y * Math.cos(THREE.MathUtils.degToRad(data.i));
+
+        entry.object.position.set(x, y, z);
+
+        // Update label position
+        labels[index].position.set(x, y + 0.1, z);
+      });
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Raycaster for detecting clicks
+    let raycaster = new THREE.Raycaster();
+    let mouse = new THREE.Vector2();
+
+    // HTML elements for showing object info
+    let asteroidInfo = document.getElementById('asteroid-info');
+    let asteroidName = document.getElementById('asteroid-name');
+    let asteroidA = document.getElementById('asteroid-a');
+    let asteroidE = document.getElementById('asteroid-e');
+    let asteroidI = document.getElementById('asteroid-i');
+
+    // Add event listener for mouse clicks
+    window.addEventListener('click', onMouseClick);
+
+    function onMouseClick(event) {
+      // Calculate mouse position in normalized device coordinates
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+      // Update the raycaster
+      raycaster.setFromCamera(mouse, camera);
+
+      // Create an array of objects to test against
+      let clickableObjects = objects.map(obj => obj.object);
+
+      // Calculate objects intersecting the picking ray
+      let intersects = raycaster.intersectObjects(clickableObjects);
+
+      if (intersects.length > 0) {
+        // Get the first intersected object
+        let selectedObject = intersects[0].object;
+
+        // Find the data associated with this object
+        let objectData = objects.find(obj => obj.object === selectedObject).data;
+
+        // Display the object's details
+        asteroidName.textContent = objectData.name;
+        asteroidA.textContent = objectData.a;
+        asteroidE.textContent = objectData.e;
+        asteroidI.textContent = objectData.i;
+        asteroidInfo.style.display = 'block';
+      } else {
+        asteroidInfo.style.display = 'none'; // Hide info if no object is clicked
+      }
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>

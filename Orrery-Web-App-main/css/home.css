@@ -1,0 +1,148 @@
+/**
+ * MAIN
+ *
+ * @format
+ */
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+    text-shadow: 0.5px 0.5px 8px white; 
+    color: white;
+    font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+}
+
+.section{
+  z-index: 100;
+}
+/* NAVBAR */
+
+
+
+.navbar a {
+  color: #fff;
+  margin-right: 50px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  text-shadow: 0.5px 0.5px 9px white;
+}
+
+nav .logo img {
+  max-width: 150px;
+}
+
+.navbar-expand-lg {
+  padding: 10px;
+}
+
+/* HEADER */
+
+header {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgb(0, 0, 0)),
+    url("../images/bg22.jpg");
+  filter: brightness(1.2);
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 5;
+  height: 60vh;
+  padding: 10px;
+  border-radius: 0 0 70px 70px;
+}
+
+/* SECTION  */
+section {
+  z-index: 1000;
+}
+
+.section {
+  transform: translateY(150px);
+  opacity: 0.2;
+  transition: opacity 0.5s, transform 1.5s;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* CARDS */
+
+.cards-container h1{
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+.card {
+  margin: 25px;
+  box-shadow: 0.5px 0.5px 10px darkblue;
+  border: none;
+  background: transparent;
+  color: white;
+}
+
+
+
+
+
+.card button {
+  box-shadow: 0.5px 0.5px 10px blue;
+  margin-top: 10px;
+}
+.card button a {
+  color: #fff;
+}
+.card button:hover {
+  box-shadow: 1px 1px 20px blue;
+}
+
+
+
+
+.gravity_section{
+  color: #fff;
+  margin: 60px 0;
+  text-align:start;
+}
+
+.gravity_section h1{
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+.gravity_section .astronaut img{
+  animation: floating 4s infinite ease-in-out  ; 
+  margin-bottom: 50px;
+}
+
+@keyframes floating {
+
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(80px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+
+ 
+@media screen and (max-width:1200px){
+
+  .gravity_section h1,.cards-container h1{
+   text-align: center;
+  }
+  
+}
+
