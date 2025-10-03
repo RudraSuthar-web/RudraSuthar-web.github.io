@@ -5,13 +5,58 @@ const nav = document.querySelector('nav');
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 const sections = document.querySelectorAll('.section');
+const cursor = document.querySelector('.cursor');
+const cursorFollower = document.querySelector('.cursor-follower');
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+    initializeVanta();
+    initializeCursor();
     initializeScrollEffects();
     initializeNavigation();
     initializeTypingEffect();
+    createScrollToTop();
 });
+
+// Vanta.js Initialization
+function initializeVanta() {
+    VANTA.DOTS({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      color: 0xffffff,
+      color2: 0x666666,
+      backgroundColor: 0x0,
+      size: 2.50,
+      spacing: 40.00,
+      showLines: false
+    });
+}
+
+// Custom Cursor
+function initializeCursor() {
+    document.addEventListener('mousemove', e => {
+        cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+        cursorFollower.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    });
+
+    const hoverElements = document.querySelectorAll('a, button, .btn');
+    hoverElements.forEach(el => {
+        el.addEventListener('mouseover', () => {
+            cursor.style.transform += ' scale(0.5)';
+            cursorFollower.style.transform += ' scale(1.5)';
+        });
+        el.addEventListener('mouseout', () => {
+            cursor.style.transform = cursor.style.transform.replace(' scale(0.5)', '');
+            cursorFollower.style.transform = cursorFollower.style.transform.replace(' scale(1.5)', '');
+        });
+    });
+}
 
 // Scroll Effects
 function initializeScrollEffects() {
@@ -30,10 +75,11 @@ function initializeScrollEffects() {
         rootMargin: '0px 0px -50px 0px'
     };
 
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
@@ -52,7 +98,7 @@ function initializeNavigation() {
             navMenu.classList.toggle('active');
         });
 
-        // Close menu when clicking on link
+        // Close menu when clicking on a link
         const navLinks = document.querySelectorAll('.nav-menu a');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
@@ -121,39 +167,21 @@ function initializeTypingEffect() {
     type();
 }
 
+// --- FIX STARTS HERE ---
 // Scroll to Top Functionality
 function createScrollToTop() {
     const scrollBtn = document.createElement('button');
     scrollBtn.className = 'scroll-to-top';
-    scrollBtn.innerHTML = '↑';
-    scrollBtn.style.cssText = `
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #6366f1, #8b5cf6);
-        color: white;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        opacity: 0;
-        transform: scale(0);
-        transition: all 0.3s ease;
-        z-index: 1000;
-    `;
+    scrollBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
     
     document.body.appendChild(scrollBtn);
     
     // Show/hide scroll button
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
-            scrollBtn.style.opacity = '1';
-            scrollBtn.style.transform = 'scale(1)';
+            scrollBtn.classList.add('visible');
         } else {
-            scrollBtn.style.opacity = '0';
-            scrollBtn.style.transform = 'scale(0)';
+            scrollBtn.classList.remove('visible');
         }
     });
     
@@ -165,6 +193,4 @@ function createScrollToTop() {
         });
     });
 }
-
-// Initialize scroll to top button
-createScrollToTop();
+// --- FIX ENDS HERE ---
