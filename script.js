@@ -131,7 +131,7 @@ function initializeTypingEffect() {
     const texts = [
         'Front-End Developer',
         'UI Designer',
-        'AI & Data Analytics Enthusiast'
+        'Data Analytics Enthusiast'
     ];
 
     let textIndex = 0;
