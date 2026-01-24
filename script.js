@@ -9,7 +9,7 @@ const cursor = document.querySelector('.cursor');
 const cursorFollower = document.querySelector('.cursor-follower');
 
 // Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeVanta();
     initializeCursor();
     initializeScrollEffects();
@@ -21,20 +21,20 @@ document.addEventListener('DOMContentLoaded', function() {
 // Vanta.js Initialization
 function initializeVanta() {
     VANTA.DOTS({
-      el: "#vanta-bg",
-      mouseControls: true,
-      touchControls: true,
-      gyroControls: false,
-      minHeight: 200.00,
-      minWidth: 200.00,
-      scale: 1.00,
-      scaleMobile: 1.00,
-      color: 0xffffff,
-      color2: 0x666666,
-      backgroundColor: 0x0,
-      size: 2.50,
-      spacing: 40.00,
-      showLines: false
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0xffffff,
+        color2: 0x666666,
+        backgroundColor: 0x0,
+        size: 2.50,
+        spacing: 40.00,
+        showLines: false
     });
 }
 
@@ -129,9 +129,9 @@ function initializeTypingEffect() {
     if (!element) return;
 
     const texts = [
-        'Full Stack Developer',
-        'UI/UX Designer',
-        'Tech Enthusiast'
+        'Front-End Developer',
+        'UI Designer',
+        'Data Analytics Enthusiast'
     ];
 
     let textIndex = 0;
@@ -141,7 +141,7 @@ function initializeTypingEffect() {
 
     function type() {
         const currentText = texts[textIndex];
-        
+
         if (isDeleting) {
             element.textContent = currentText.substring(0, charIndex - 1);
             charIndex--;
@@ -173,9 +173,9 @@ function createScrollToTop() {
     const scrollBtn = document.createElement('button');
     scrollBtn.className = 'scroll-to-top';
     scrollBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    
+
     document.body.appendChild(scrollBtn);
-    
+
     // Show/hide scroll button
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
@@ -184,7 +184,7 @@ function createScrollToTop() {
             scrollBtn.classList.remove('visible');
         }
     });
-    
+
     // Scroll to top functionality
     scrollBtn.addEventListener('click', () => {
         window.scrollTo({
