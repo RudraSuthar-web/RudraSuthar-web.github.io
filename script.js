@@ -131,7 +131,7 @@ function initializeTypingEffect() {
     const texts = [
         'Front-End Developer',
         'UI Designer',
-        'Data Analytics Enthusiast'
+        'AI & Data Analytics Enthusiast'
     ];
 
     let textIndex = 0;
@@ -193,4 +193,5 @@ function createScrollToTop() {
         });
     });
 }
+
 // --- FIX ENDS HERE ---
