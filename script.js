@@ -129,9 +129,10 @@ function initializeTypingEffect() {
     if (!element) return;
 
     const texts = [
-        'Front-End Developer',
-        'UI Designer',
-        'AI & Data Analytics Enthusiast'
+        'AI Agent Developer',
+        'LLM & LangChain Developer',
+        'AI & Data Analytics',
+        'Frontend Developer'
     ];
 
     let textIndex = 0;

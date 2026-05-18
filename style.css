@@ -531,6 +531,50 @@ nav.scrolled {
     }
 }
 
+/* Enhanced Certification Styling */
+.cert-item {
+    margin-top: 1.5rem;
+}
+
+.cert-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0.75rem;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.cert-header i {
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.cert-list {
+    list-style: none !important;
+    padding-left: 2rem !important;
+    text-align: left !important;
+}
+
+.cert-list li {
+    position: relative;
+    margin-bottom: 0.6rem;
+    color: #b0b0b0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.cert-list li::before {
+    content: "";
+    position: absolute;
+    left: -1.2rem;
+    top: 10px;
+    width: 6px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
 @media (max-width: 480px) {
     .section {
         padding: 2rem 1rem;
