@@ -55,6 +55,14 @@ body {
     transition: all 0.3s ease;
 }
 
+/* Hide custom cursor on mobile and touch devices */
+@media (hover: none), (max-width: 768px) {
+    .cursor,
+    .cursor-follower {
+        display: none !important;
+    }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
@@ -347,10 +355,14 @@ nav.scrolled {
 
 /* Contact Section */
 .contact-methods-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1.5rem;
     margin-top: 1.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .social-link {
     display: flex;
@@ -361,6 +373,8 @@ nav.scrolled {
     border-radius: 12px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
+    width: calc(50% - 0.75rem);
+    min-width: 280px;
 }
 .social-link:hover {
     transform: translateX(5px);
@@ -528,6 +542,10 @@ nav.scrolled {
     .projects-grid,
     .contact-grid {
         grid-template-columns: 1fr;
+    }
+
+    .social-link {
+        width: 100%;
     }
 }
 
