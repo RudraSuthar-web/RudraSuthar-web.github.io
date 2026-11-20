@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rudra Suthar - Resume</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* Jake's Resume / Classic LaTeX Ivy League Format */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, 'Nimbus Roman No9 L', serif;
+            color: #000000;
+            background-color: #f4f4f4;
+            line-height: 1.25;
+            font-size: 10pt;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Single Page Resume Container */
+        .resume-container {
+            width: 210mm;
+            min-height: 297mm;
+            max-height: 297mm;
+            margin: 20px auto 30px;
+            background: #ffffff;
+            padding: 10mm 14mm 8mm 14mm;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+            overflow: hidden; /* Strict 1-page fit */
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 7px;
+        }
+
+        .name {
+            font-size: 21pt;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .contact-bar {
+            font-size: 9pt;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .contact-bar span {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .contact-bar a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .contact-bar a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-sep {
+            color: #555555;
+            margin: 0 2px;
+        }
+
+        .ext-icon {
+            font-size: 7.5pt;
+            margin-left: 1px;
+            color: #444444;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-top: 6px;
+            margin-bottom: 2px;
+        }
+
+        .section-header {
+            font-size: 11pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 0.8px solid #000000;
+            padding-bottom: 1px;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Section Content */
+        .summary-text {
+            font-size: 9.3pt;
+            text-align: justify;
+            line-height: 1.25;
+            margin-bottom: 2px;
+        }
+
+        /* Experience & Projects Entries */
+        .item {
+            margin-bottom: 4.5px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 9.8pt;
+        }
+
+        .item-title-left {
+            font-weight: 700;
+        }
+
+        .item-date-right {
+            font-size: 9pt;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .item-subrow {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 9pt;
+            font-style: italic;
+            margin-bottom: 1.5px;
+        }
+
+        .item-location {
+            font-style: italic;
+            font-size: 8.8pt;
+        }
+
+        /* Bullet lists */
+        .bullet-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1px;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 14px;
+            font-size: 9pt;
+            line-height: 1.25;
+            margin-bottom: 1.8px;
+            text-align: justify;
+        }
+
+        .bullet-list li::before {
+            content: "•";
+            position: absolute;
+            left: 3px;
+            font-size: 8.5pt;
+        }
+
+        /* Project Specific */
+        .project-links {
+            font-size: 8.5pt;
+            font-weight: normal;
+            margin-left: 4px;
+        }
+
+        .project-links a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .project-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Skills Section */
+        .skills-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .skills-list li {
+            font-size: 9pt;
+            line-height: 1.28;
+            margin-bottom: 1.5px;
+        }
+
+        .skills-category {
+            font-weight: 700;
+        }
+
+        /* Achievements */
+        .achieve-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .achieve-list li {
+            position: relative;
+            padding-left: 14px;
+            font-size: 8.8pt;
+            line-height: 1.25;
+            margin-bottom: 1.5px;
+        }
+
+        .achieve-list li::before {
+            content: "•";
+            position: absolute;
+            left: 3px;
+            font-size: 8.5pt;
+        }
+
+        /* Highlight keywords */
+        strong, b {
+            font-weight: 700;
+        }
+
+        /* Print Settings for Exact 1-Page PDF Output */
+        @media print {
+            body {
+                background: #ffffff;
+                margin: 0;
+                padding: 0;
+            }
+
+            .resume-container {
+                width: 100%;
+                min-height: 100vh;
+                max-height: 100vh;
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                overflow: visible;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 8mm 12mm 6mm 12mm;
+            }
+
+            a {
+                color: #000000 !important;
+                text-decoration: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Resume Page Container -->
+    <div class="resume-container">
+        
+        <!-- Header -->
+        <header class="header">
+            <h1 class="name">Rudra Suthar</h1>
+            <div class="contact-bar">
+                <span><i class="fas fa-phone-alt"></i> +91 9924081462</span>
+                <span class="contact-sep">|</span>
+                <span><i class="fas fa-envelope"></i> <a href="mailto:contactrudra548@gmail.com">contactrudra548@gmail.com</a></span>
+                <span class="contact-sep">|</span>
+                <span><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/rudra-suthar-a77878316/" target="_blank">LinkedIn<i class="fas fa-external-link-alt ext-icon"></i></a></span>
+                <span class="contact-sep">|</span>
+                <span><i class="fab fa-github"></i> <a href="https://github.com/RudraSuthar-web" target="_blank">GitHub<i class="fas fa-external-link-alt ext-icon"></i></a></span>
+                <span class="contact-sep">|</span>
+                <span><i class="fas fa-globe"></i> <a href="https://rudra-suthar-portfolio.web.app/" target="_blank">Portfolio<i class="fas fa-external-link-alt ext-icon"></i></a></span>
+            </div>
+        </header>
+
+        <!-- Summary -->
+        <section class="section">
+            <h2 class="section-header">Summary</h2>
+            <p class="summary-text">
+                <strong>AI & Data Science Engineer</strong> specializing in <strong>Data Analytics</strong>, <strong>autonomous agentic systems</strong>, and full-stack AI integration. Strong foundation in exploratory data analysis (EDA), data cleaning, and statistical modeling, combined with production-grade <strong>LangGraph multi-agent DAGs</strong>, 100% local <strong>Hybrid RAG</strong> (BM25 + Qdrant), and automated data visualization. Experienced across founding engineering roles, applied AI residencies, and competitive hackathons.
+            </p>
+        </section>
+
+        <!-- Experience & Internships -->
+        <section class="section">
+            <h2 class="section-header">Experience</h2>
+
+            <!-- Ad Meliora -->
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title-left">Ad Meliora</span>
+                    <span class="item-date-right">July 2026 – Present</span>
+                </div>
+                <div class="item-subrow">
+                    <span>Founding AI Engineer (Freelance)</span>
+                    <span class="item-location">Ahmedabad, Gujarat</span>
+                </div>
+                <ul class="bullet-list">
+                    <li>Architected and deployed custom <strong>agentic AI solutions</strong>, autonomous workflows, and LLM-powered applications for client operations.</li>
+                    <li>Developed responsive, intuitive web frontends and integrated robust backend REST APIs to optimize system response times.</li>
+                </ul>
+            </div>
+
+            <!-- Capabl India -->
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title-left">Capabl India</span>
+                    <span class="item-date-right">August 2026 – September 2026</span>
+                </div>
+                <div class="item-subrow">
+                    <span>Applied AI Intern – Agentic AI (2-Month Applied AI Residency)</span>
+                    <span class="item-location">Remote</span>
+                </div>
+                <ul class="bullet-list">
+                    <li>Engineered <strong>GoTraveller</strong>, an autonomous AI travel concierge utilizing <strong>LangGraph</strong> and <strong>LangChain</strong> multi-agent workflows.</li>
+                    <li>Integrated <strong>Groq (Llama 3.3 70B)</strong> with <strong>FastAPI</strong>, implementing workflow state persistence via <strong>LangGraph PostgresSaver</strong> and PostgreSQL.</li>
+                    <li>Connected live external retrieval tools (<strong>Tavily Search</strong>, <strong>Weatherstack</strong>, <strong>SerpAPI</strong>) and interactive <strong>Leaflet maps</strong> in <strong>Next.js</strong>.</li>
+                </ul>
+            </div>
+
+            <!-- SRISTI.ORG -->
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title-left">SRISTI Innovations (SRISTI.ORG)</span>
+                    <span class="item-date-right">June 2026</span>
+                </div>
+                <div class="item-subrow">
+                    <span>Frontend Developer Intern (15-Day Societal Internship)</span>
+                    <span class="item-location">Ahmedabad, Gujarat</span>
+                </div>
+                <ul class="bullet-list">
+                    <li>Modernized organization's digital portal with <strong>React</strong> and <strong>Tailwind CSS</strong>, restructuring landing pages for community initiatives like <strong>Khedut Haat</strong>.</li>
+                    <li>Resolved accessibility and typography bottlenecks in digital product catalogs, streamlining agricultural information delivery for rural communities.</li>
+                </ul>
+            </div>
+
+            <!-- Srible -->
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title-left">srible.com</span>
+                    <span class="item-date-right">June 2025 – July 2025</span>
+                </div>
+                <div class="item-subrow">
+                    <span>Founding Engineer</span>
+                    <span class="item-location">Remote</span>
+                </div>
+                <ul class="bullet-list">
+                    <li>Contributed to full-stack development of a minimalist blogging platform ensuring high-speed data delivery between <strong>SvelteKit</strong> and <strong>Rust</strong>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section class="section">
+            <h2 class="section-header">Projects</h2>
+
+            <!-- Chitragupta -->
+            <div class="item">
+                <div class="item-header">
+                    <span><strong>Project Chitragupta — Statewide Video Ingestion & Analytics Platform</strong> <span class="project-links">[Distributed Systems & Computer Vision]</span></span>
+                </div>
+                <ul class="bullet-list">
+                    <li>Architected an ultra-low latency ingestion engine in <strong>Go</strong> to federate feeds from <strong>80,000+ cameras</strong> across 26 government departments using 1-to-N stream multiplexing, raw binary <strong>FrameBridge</strong> protocol, and <strong>WebRTC (WHEP)</strong> (<300ms glass-to-glass latency).</li>
+                    <li>Built a high-concurrency <strong>Python AI analytics pipeline</strong> with <strong>YOLOv8</strong>, <strong>ByteTrack</strong>, and an OCR cascade (PaddleOCR/EasyOCR); engineered a persistent <strong>NetworkX DiGraph</strong> stored in <strong>Redis</strong> for real-time spatio-temporal vehicle route tracking and watchlist alerts via <strong>Kafka</strong>.</li>
+                </ul>
+            </div>
+
+            <!-- FieldOS -->
+            <div class="item">
+                <div class="item-header">
+                    <span><strong>FieldOS — Multilingual Voice-First Field Operations Platform</strong> <span class="project-links">[<a href="https://github.com/RudraSuthar-web/FieldOS" target="_blank">GitHub<i class="fas fa-external-link-alt ext-icon"></i></a>]</span></span>
+                </div>
+                <ul class="bullet-list">
+                    <li>Developed an <strong>AI Co-Worker for Field Operations</strong> converting vernacular voice input (<strong>Gujarati, Hindi, English, Hinglish</strong>) into structured work orders with real-time operations analytics in <strong>TypeScript</strong> and <strong>Next.js</strong>.</li>
+                </ul>
+            </div>
+
+            <!-- Research Analyst Agent -->
+            <div class="item">
+                <div class="item-header">
+                    <span><strong>Research Analyst Agent — Multi-Agent DAG v2</strong> <span class="project-links">[<a href="https://github.com/RudraSuthar-web/Research-Analyst-Agent" target="_blank">GitHub<i class="fas fa-external-link-alt ext-icon"></i></a>]</span></span>
+                </div>
+                <ul class="bullet-list">
+                    <li>Engineered a production-ready <strong>Multi-Agent DAG</strong> using <strong>LangGraph</strong> that ingests documents and streams citation-aware terminal reports with 100% local <strong>Hybrid RAG</strong> (<strong>BM25</strong> + <strong>Qdrant</strong> + <strong>Reranker</strong>) and automated chart generation.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Technical Skills -->
+        <section class="section">
+            <h2 class="section-header">Technical Skills</h2>
+            <ul class="skills-list">
+                <li><span class="skills-category">Languages:</span> Python, Go (Golang), TypeScript, JavaScript, SQL, Rust (Familiar), HTML/CSS</li>
+                <li><span class="skills-category">Data Science & Analytics:</span> Exploratory Data Analysis (EDA), Data Cleaning & Wrangling, Pandas, NumPy, Statistical Modeling, Matplotlib, PostGIS Spatial Analytics</li>
+                <li><span class="skills-category">AI, Vision & Agents:</span> YOLOv8, ByteTrack, LangGraph, LangChain, Multi-Agent DAGs, Groq (Llama 3.3), Hybrid RAG (Qdrant, BM25)</li>
+                <li><span class="skills-category">Backend, Streaming & DB:</span> FastAPI, PostgreSQL, PostgresSaver, Redis, Kafka, WebRTC (WHEP), REST APIs</li>
+                <li><span class="skills-category">Frontend, DevOps & Cloud:</span> Next.js, React, Tailwind CSS, Docker, Git/GitHub, Firebase Hosting & Actions, MediaMTX</li>
+            </ul>
+        </section>
+
+        <!-- Achievements & Hackathons -->
+        <section class="section">
+            <h2 class="section-header">Achievements & Hackathons</h2>
+            <ul class="achieve-list">
+                <li><strong>Google Solution Challenge 2026:</strong> Build with AI (Certificate of Participation).</li>
+                <li><strong>Odoo x Adani University Hackathon '26:</strong> Certificate of Participation.</li>
+                <li><strong>NASA Space Apps Challenge</strong> &bull; <strong>MINeD 2025 (Nirma Univ)</strong> &bull; <strong>Hack The Spring 2025 (HTS2025)</strong> &bull; <strong>Smart India Hackathon</strong>.</li>
+                <li><strong>IIT Bombay Placement Preparation Programme</strong> &bull; <strong>GDG Master Course in Git/GitHub</strong> &bull; <strong>AI For All (Appreciate & Aware)</strong>.</li>
+            </ul>
+        </section>
+
+        <!-- Education -->
+        <section class="section">
+            <h2 class="section-header">Education</h2>
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title-left">Ahmedabad Institute of Technology (GTU)</span>
+                    <span class="item-date-right">2024 – 2028 (Pursuing)</span>
+                </div>
+                <div class="item-subrow">
+                    <span>Bachelor of Engineering in Computer Science & Engineering – Data Science</span>
+                    <span class="item-location">Ahmedabad, Gujarat</span>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
