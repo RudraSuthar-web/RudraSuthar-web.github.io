@@ -295,10 +295,55 @@ nav.scrolled {
 }
 
 /* Work Section */
+.work-category {
+    margin-bottom: 2.5rem;
+}
+
+.work-category:last-child {
+    margin-bottom: 0;
+}
+
+.work-category-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.6rem;
+}
+
+.work-category-title i {
+    color: #aaaaaa;
+    font-size: 1.15rem;
+}
+
 .work-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+}
+
+.role-badge-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.25rem;
+}
+
+.duration-badge {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.65rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    white-space: nowrap;
 }
 
 .work-card .date,
